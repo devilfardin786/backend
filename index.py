@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
 
@@ -21,9 +22,9 @@ def process_data():
 
         response = {
             "is_success": True,
-            "user_id": "your_fullname_dob",  # Replace with actual details
-            "email": "your_email@example.com",  # Replace with actual email
-            "roll_number": "your_roll_number",  # Replace with actual roll number
+            "user_id": "fardin_khan_08062003",  # Replace with actual details
+            "email": "22bai71309@cuchd.in",  # Replace with actual email
+            "roll_number": "22bai71309",  # Replace with actual roll number
             "numbers": numbers,
             "alphabets": alphabets,
             "highest_alphabet": highest_alphabet
@@ -38,6 +39,6 @@ def process_data():
 def get_operation_code():
     return jsonify({"operation_code": 1}), 200
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
+# Make Flask work with Vercel
+app.wsgi_app = ProxyFix(app.wsgi_app)
+handler = app  # Required by Vercel
